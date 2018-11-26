@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"PDSgroupon/handler/sd"
+	"PDSgroupon/handler/user"
 	"PDSgroupon/router/middleware"
 )
 
@@ -22,6 +23,11 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.NoRoute(func(c *gin.Context) {
 		c.String(http.StatusNotFound, "The incorrect API route.")
 	})
+
+	u := g.Group("/v1/user")
+	{
+		u.POST("/:username", user.Create)
+	}
 
 	// 健康检查处理器的路由组
 	svcd := g.Group("/sd")
